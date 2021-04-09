@@ -28,6 +28,9 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -35,8 +38,8 @@ jobs:
           tools: composer:v2
           coverage: xdebug
 
-      # - name: Validate composer.json and composer.lock
-      #   run: composer validate
+      - name: Validate composer.json and composer.lock
+        run: composer validate
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
