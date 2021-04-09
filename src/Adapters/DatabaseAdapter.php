@@ -174,25 +174,17 @@ class DatabaseAdapter implements Adapter, BatchAdapter
     public function addPolicies(string $sec, string $ptype, array $rules): void
     {
         $cols = [];
-        $i = 0;
 
-        //$instance = $this->model->where('ptype', $ptype);
         foreach ($rules as $rule) {
+            $temp = [];
             $temp['ptype'] = $ptype;
             foreach ($rule as $key => $value) {
                 $temp['v' . strval($key)] = $value;
             }
-            $cols[$i++] = $temp;
-            $temp = [];
+            $cols[] = $temp;
         }
+
         $this->model->insert($cols);
-
-        // $col['ptype'] = $ptype;
-        // foreach ($rule as $key => $value) {
-        //     $col['v'.strval($key)] = $value;
-        // }
-
-        // $this->model->insert($col);
     }
 
     /**
