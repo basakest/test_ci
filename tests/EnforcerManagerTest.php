@@ -20,7 +20,7 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     protected function getEnforcer()
     {
-        $this->initDb();
+        //$this->initDb();
         return Services::enforcer();
     }
 
