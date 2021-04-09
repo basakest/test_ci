@@ -12,6 +12,18 @@ use Casbin\CodeIgniter\Tests\Database\Seeds\CITestSeeder;
 
 class EnforcerManagerTest extends CIUnitTestCase
 {    
+    protected function initDb()
+    {
+        $seeder = \Config\Database::seeder();
+        $seeder->call(CITestSeeder::class);
+    }
+
+    protected function getEnforcer()
+    {
+        $this->initDb();
+        return Services::enforcer();
+    }
+
     protected function createApplication()
     {
         $app = parent::createApplication();
@@ -115,16 +127,19 @@ class EnforcerManagerTest extends CIUnitTestCase
     //     $this->assertEquals($policies, Services::enforcer()->getPolicy());
     // }
 
+    //getEnforcer
+
     public function testRemovePolicies()
     {
+        $e = $this->getEnforcer();
         $this->assertEquals([
             ['alice', 'data1', 'read'],
             ['bob', 'data2', 'write'],
             ['data2_admin', 'data2', 'read'],
             ['data2_admin', 'data2', 'write'],
-        ], Services::enforcer()->getPolicy());
+        ], $e->getPolicy());
 
-        Services::enforcer()->removePolicies([
+        $e->removePolicies([
             ['data2_admin', 'data2', 'read'],
             ['data2_admin', 'data2', 'write'],
         ]);
@@ -132,6 +147,6 @@ class EnforcerManagerTest extends CIUnitTestCase
         $this->assertEquals([
             ['alice', 'data1', 'read'],
             ['bob', 'data2', 'write']
-        ], Services::enforcer()->getPolicy());
+        ], $e->getPolicy());
     }
 }
