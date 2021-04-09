@@ -129,6 +129,7 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     public function testRemovePolicies()
     {
+        Services::enforcer()->clearPolicy();
         $this->initDb();
         $this->assertEquals([
             ['alice', 'data1', 'read'],
