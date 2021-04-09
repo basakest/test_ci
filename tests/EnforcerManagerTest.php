@@ -3,8 +3,7 @@
 namespace Casbin\CodeIgniter\Tests;
 
 use CodeIgniter\Test\CIDatabaseTestCase;
-use Config\Services
-;
+use Config\Services;
 use Config\Autoload;
 use Config\Modules;
 use Casbin\CodeIgniter\Tests\Database\Seeds\CITestSeeder;
@@ -98,39 +97,39 @@ class EnforcerManagerTest extends CIDatabaseTestCase
         $this->assertFalse(Services::enforcer()->enforce('alice', 'data2', 'write'));
     }
 
-    // public function testAddPolicies()
-    // {
-    //     $policies = [
-    //         ['u1', 'd1', 'read'],
-    //         ['u2', 'd2', 'read'],
-    //         ['u3', 'd3', 'read'],
-    //     ];
-    //     Services::enforcer()->clearPolicy();
-    //     $seeder = \Config\Database::seeder();
-    //     $seeder->call(CITestSeeder::class);
-    //     //$this->initTable();
-    //     $this->assertEquals([], Services::enforcer()->getPolicy());
-    //     Services::enforcer()->addPolicies($policies);
-    //     $this->assertEquals($policies, Services::enforcer()->getPolicy());
-    // }
+    public function testAddPolicies()
+    {
+        $policies = [
+            ['u1', 'd1', 'read'],
+            ['u2', 'd2', 'read'],
+            ['u3', 'd3', 'read'],
+        ];
+        Services::enforcer()->clearPolicy();
+        $seeder = \Config\Database::seeder();
+        $seeder->call(CITestSeeder::class);
+        //$this->initTable();
+        $this->assertEquals([], Services::enforcer()->getPolicy());
+        Services::enforcer()->addPolicies($policies);
+        $this->assertEquals($policies, Services::enforcer()->getPolicy());
+    }
 
-    // public function testRemovePolicies()
-    // {
-    //     $this->assertEquals([
-    //         ['alice', 'data1', 'read'],
-    //         ['bob', 'data2', 'write'],
-    //         ['data2_admin', 'data2', 'read'],
-    //         ['data2_admin', 'data2', 'write'],
-    //     ], Services::enforcer()->getPolicy());
+    public function testRemovePolicies()
+    {
+        $this->assertEquals([
+            ['alice', 'data1', 'read'],
+            ['bob', 'data2', 'write'],
+            ['data2_admin', 'data2', 'read'],
+            ['data2_admin', 'data2', 'write'],
+        ], Services::enforcer()->getPolicy());
 
-    //     Services::enforcer()->removePolicies([
-    //         ['data2_admin', 'data2', 'read'],
-    //         ['data2_admin', 'data2', 'write'],
-    //     ]);
+        Services::enforcer()->removePolicies([
+            ['data2_admin', 'data2', 'read'],
+            ['data2_admin', 'data2', 'write'],
+        ]);
 
-    //     $this->assertEquals([
-    //         ['alice', 'data1', 'read'],
-    //         ['bob', 'data2', 'write']
-    //     ], Services::enforcer()->getPolicy());
-    // }
+        $this->assertEquals([
+            ['alice', 'data1', 'read'],
+            ['bob', 'data2', 'write']
+        ], Services::enforcer()->getPolicy());
+    }
 }
