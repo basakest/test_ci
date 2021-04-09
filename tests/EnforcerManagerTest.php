@@ -111,6 +111,7 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     public function testRemoveFilteredPolicy()
     {
+        $this->initDb();
         $this->assertTrue(Services::enforcer()->enforce('alice', 'data1', 'read'));
         Services::enforcer()->removeFilteredPolicy(1, 'data1');
         $this->assertFalse(Services::enforcer()->enforce('alice', 'data1', 'read'));
