@@ -41,17 +41,16 @@ jobs:
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: |
-          composer require easyswoole/easyswoole:${{ matrix.easyswoole }} --no-update --no-interaction
           composer install --prefer-dist --no-progress --no-suggest
 
       - name: Run test suite
-        run: ./vendor/bin/co-phpunit tests
+        run: ./vendor/bin/phpunit
 
       - name: Run Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: ${{ runner.os }} - ${{ matrix.php }} - easyswoole${{ matrix.easyswoole }}
+          COVERALLS_FLAG_NAME: ${{ runner.os }} - ${{ matrix.php }}
         run: |
           composer global require php-coveralls/php-coveralls:^2.4
           php-coveralls --coverage_clover=build/logs/clover.xml -v
