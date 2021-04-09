@@ -113,12 +113,12 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     public function testAddPolicies()
     {
-        $e = $this->getEnforcer();
         $policies = [
             ['u1', 'd1', 'read'],
             ['u2', 'd2', 'read'],
             ['u3', 'd3', 'read'],
         ];
+        $e = $this->getEnforcer();
         $e->clearPolicy();
         $this->assertEquals([], $e->getPolicy());
         $e->addPolicies($policies);
