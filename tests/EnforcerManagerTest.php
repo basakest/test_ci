@@ -71,18 +71,18 @@ class EnforcerManagerTest extends CIUnitTestCase
         $this->assertTrue(Services::enforcer()->enforce('eve', 'data3', 'read'));
     }
 
-    // public function testSavePolicy()
-    // {
-    //     $this->assertFalse(Services::enforcer()->enforce('alice', 'data4', 'read'));
+    public function testSavePolicy()
+    {
+        $this->assertFalse(Services::enforcer()->enforce('alice', 'data4', 'read'));
 
-    //     $model = Services::enforcer()->getModel();
-    //     // $model->clearPolicy();
-    //     $model->addPolicy('p', 'p', ['alice', 'data4', 'read']);
+        $model = Services::enforcer()->getModel();
+        $model->clearPolicy();
+        $model->addPolicy('p', 'p', ['alice', 'data4', 'read']);
 
-    //     $adapter = Services::enforcer()->getAdapter();
-    //     $adapter->savePolicy($model);
-    //     $this->assertTrue(Services::enforcer()->enforce('alice', 'data4', 'read'));
-    // }
+        $adapter = Services::enforcer()->getAdapter();
+        $adapter->savePolicy($model);
+        $this->assertTrue(Services::enforcer()->enforce('alice', 'data4', 'read'));
+    }
 
     // public function testRemovePolicy()
     // {
