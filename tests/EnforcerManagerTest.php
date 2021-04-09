@@ -111,23 +111,19 @@ class EnforcerManagerTest extends CIUnitTestCase
     //     $this->assertFalse(Services::enforcer()->enforce('alice', 'data2', 'write'));
     // }
 
-    // public function testAddPolicies()
-    // {
-    //     $policies = [
-    //         ['u1', 'd1', 'read'],
-    //         ['u2', 'd2', 'read'],
-    //         ['u3', 'd3', 'read'],
-    //     ];
-    //     Services::enforcer()->clearPolicy();
-    //     $seeder = \Config\Database::seeder();
-    //     $seeder->call(CITestSeeder::class);
-    //     //$this->initTable();
-    //     $this->assertEquals([], Services::enforcer()->getPolicy());
-    //     Services::enforcer()->addPolicies($policies);
-    //     $this->assertEquals($policies, Services::enforcer()->getPolicy());
-    // }
-
-    //getEnforcer
+    public function testAddPolicies()
+    {
+        $e = $this->getEnforcer();
+        $policies = [
+            ['u1', 'd1', 'read'],
+            ['u2', 'd2', 'read'],
+            ['u3', 'd3', 'read'],
+        ];
+        $e->clearPolicy();
+        $this->assertEquals([], $e->getPolicy());
+        $e->addPolicies($policies);
+        $this->assertEquals($policies, $e->getPolicy());
+    }
 
     public function testRemovePolicies()
     {
