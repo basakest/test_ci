@@ -52,16 +52,16 @@ class EnforcerManagerTest extends CIUnitTestCase
      */
     protected $namespace = 'Casbin\CodeIgniter';
 
-    // public function testEnforce()
-    // {
-    //     $this->assertTrue(Services::enforcer()->enforce('alice', 'data1', 'read'));
+    public function testEnforce()
+    {
+        $this->assertTrue(Services::enforcer()->enforce('alice', 'data1', 'read'));
 
-    //     $this->assertFalse(Services::enforcer()->enforce('bob', 'data1', 'read'));
-    //     $this->assertTrue(Services::enforcer()->enforce('bob', 'data2', 'write'));
+        $this->assertFalse(Services::enforcer()->enforce('bob', 'data1', 'read'));
+        $this->assertTrue(Services::enforcer()->enforce('bob', 'data2', 'write'));
 
-    //     $this->assertTrue(Services::enforcer()->enforce('alice', 'data2', 'read'));
-    //     $this->assertTrue(Services::enforcer()->enforce('alice', 'data2', 'write'));
-    // }
+        $this->assertTrue(Services::enforcer()->enforce('alice', 'data2', 'read'));
+        $this->assertTrue(Services::enforcer()->enforce('alice', 'data2', 'write'));
+    }
 
     // public function testAddPolicy()
     // {
@@ -112,19 +112,19 @@ class EnforcerManagerTest extends CIUnitTestCase
         $this->assertFalse(Services::enforcer()->enforce('alice', 'data2', 'write'));
     }
 
-    public function testAddPolicies()
-    {
-        $policies = [
-            ['u1', 'd1', 'read'],
-            ['u2', 'd2', 'read'],
-            ['u3', 'd3', 'read'],
-        ];
-        $e = $this->getEnforcer();
-        $e->clearPolicy();
-        $this->assertEquals([], $e->getPolicy());
-        $e->addPolicies($policies);
-        $this->assertEquals($policies, $e->getPolicy());
-    }
+    // public function testAddPolicies()
+    // {
+    //     $policies = [
+    //         ['u1', 'd1', 'read'],
+    //         ['u2', 'd2', 'read'],
+    //         ['u3', 'd3', 'read'],
+    //     ];
+    //     $e = $this->getEnforcer();
+    //     $e->clearPolicy();
+    //     $this->assertEquals([], $e->getPolicy());
+    //     $e->addPolicies($policies);
+    //     $this->assertEquals($policies, $e->getPolicy());
+    // }
 
     public function testRemovePolicies()
     {

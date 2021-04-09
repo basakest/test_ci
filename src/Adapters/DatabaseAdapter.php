@@ -183,11 +183,6 @@ class DatabaseAdapter implements Adapter, BatchAdapter
             }
             $cols[] = $temp;
         }
-        $cols = [
-            ['u1', 'd1', 'read'],
-            ['u2', 'd2', 'read'],
-            ['u3', 'd3', 'read'],
-        ];
         $this->model->insert($cols);
     }
 
