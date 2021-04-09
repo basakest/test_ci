@@ -208,7 +208,7 @@ class DatabaseAdapter implements Adapter, BatchAdapter
         }
         $keys = array_unique($keys);
         foreach ($keys as $key) {
-            $instance->find($key, $con[$key]);
+            $instance->whereIn($key, $con[$key]);
         }
         $instance->delete();
     }
