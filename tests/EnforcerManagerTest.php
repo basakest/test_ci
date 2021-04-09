@@ -107,8 +107,8 @@ class EnforcerManagerTest extends CIUnitTestCase
             ['u3', 'd3', 'read'],
         ];
         Services::enforcer()->clearPolicy();
-        //$seeder = \Config\Database::seeder();
-        $this->seeder->call(CITestSeeder::class);
+        $seeder = \Config\Database::seeder();
+        $seeder->call(CITestSeeder::class);
         //$this->initTable();
         $this->assertEquals([], Services::enforcer()->getPolicy());
         Services::enforcer()->addPolicies($policies);
