@@ -2,9 +2,10 @@
 
 namespace Casbin\CodeIgniter\Tests\Database\Seeds;
 
-use Config\Services;
+use CodeIgniter\Database\Seeder;
+use Casbin\CodeIgniter\Config\Services;
 
-class CITestSeeder extends \CodeIgniter\Database\Seeder
+class CITestSeeder extends Seeder
 {
     public function run()
     {
