@@ -54,6 +54,7 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     public function testEnforce()
     {
+        $this->initDb();
         $this->assertTrue(Services::enforcer()->enforce('alice', 'data1', 'read'));
 
         $this->assertFalse(Services::enforcer()->enforce('bob', 'data1', 'read'));
