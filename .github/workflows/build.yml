@@ -15,49 +15,48 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: lauthz
+          MYSQL_DATABASE: casbin
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-        
+
     strategy:
       fail-fast: true
       matrix:
         php: [ 7.2, 7.3 ]
         stability: [ prefer-lowest, prefer-stable ]
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
+      name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
           coverage: xdebug
+          extensions: swoole-${{ matrix.swoole }}
 
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Run phpstan analyse
-        run: ./vendor/bin/phpstan analyse
+        run: |
+          composer require easyswoole/easyswoole:${{ matrix.easyswoole }} --no-update --no-interaction
+          composer install --prefer-dist --no-progress --no-suggest
 
       - name: Run test suite
-        run: ./vendor/bin/phpunit -v
+        run: ./vendor/bin/co-phpunit tests
 
       - name: Run Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: ${{ runner.os }} - ${{ matrix.php }} - ${{ matrix.stability }}
-        run: ./vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+          COVERALLS_FLAG_NAME: ${{ runner.os }} - ${{ matrix.php }} - easyswoole${{ matrix.easyswoole }}
+        run: |
+          composer global require php-coveralls/php-coveralls:^2.4
+          php-coveralls --coverage_clover=build/logs/clover.xml -v
 
   upload-coverage:
     runs-on: ubuntu-latest
