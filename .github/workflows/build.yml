@@ -35,8 +35,8 @@ jobs:
           tools: composer:v2
           coverage: xdebug
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+      # - name: Validate composer.json and composer.lock
+      #   run: composer validate
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
