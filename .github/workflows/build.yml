@@ -34,7 +34,6 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: composer:v2
           coverage: xdebug
-          extensions: swoole-${{ matrix.swoole }}
 
       - name: Validate composer.json and composer.lock
         run: composer validate
