@@ -176,7 +176,7 @@ class DatabaseAdapter implements Adapter, BatchAdapter
         $cols = [];
         $i = 0;
 
-        $instance = $this->model->where('ptype', $ptype);
+        //$instance = $this->model->where('ptype', $ptype);
         foreach ($rules as $rule) {
             $temp['ptype'] = $ptype;
             foreach ($rule as $key => $value) {
@@ -185,7 +185,14 @@ class DatabaseAdapter implements Adapter, BatchAdapter
             $cols[$i++] = $temp;
             $temp = [];
         }
-        $instance->insert($cols);
+        $this->model->insert($cols);
+
+        // $col['ptype'] = $ptype;
+        // foreach ($rule as $key => $value) {
+        //     $col['v'.strval($key)] = $value;
+        // }
+
+        // $this->model->insert($col);
     }
 
     /**
