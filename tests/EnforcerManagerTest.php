@@ -23,6 +23,7 @@ class EnforcerManagerTest extends CIUnitTestCase
         // $this->model = new RuleModel($db);
         $this->model = new RuleModel();
         //$this->model->setTable($config['database']['rules_table']);
+        $this->model->setTable('db_rulesg');
         $this->model->purgeDeleted();
         $this->model->insert(['ptype' => 'p', 'v0'  => 'alice', 'v1' => 'data1', 'v2' => 'read']);
         $this->model->insert(['ptype' => 'p', 'v0'  => 'bob', 'v1' => 'data2', 'v2' => 'write']);
