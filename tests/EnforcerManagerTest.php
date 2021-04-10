@@ -5,6 +5,7 @@ namespace Casbin\CodeIgniter\Tests;
 use CodeIgniter\Test\CIDatabaseTestCase;
 use CodeIgniter\Test\CIUnitTestCase;
 use Casbin\CodeIgniter\Config\Services;
+use Casbin\CodeIgniter\Models\RuleModel;
 use Config\Autoload;
 use Config\Modules;
 // use Casbin\CodeIgniter\Tests\Database\Seeds\CITestSeeder;
@@ -14,8 +15,14 @@ class EnforcerManagerTest extends CIUnitTestCase
 {    
     protected function initDb()
     {
-        $seeder = \Config\Database::seeder();
-        $seeder->call(CITestSeeder::class);
+        RuleModel::purgeDeleted();
+        RuleModel::insert(['ptype' => 'p', 'v0'  => 'alice', 'v1' => 'data1', 'v2' => 'read']);
+        RuleModel::insert(['ptype' => 'p', 'v0'  => 'bob', 'v1' => 'data2', 'v2' => 'write']);
+        RuleModel::insert(['ptype' => 'p', 'v0'  => 'data2_admin', 'v1' => 'data2', 'v2' => 'read']);
+        RuleModel::insert(['ptype' => 'p', 'v0'  => 'data2_admin', 'v1' => 'data2', 'v2' => 'write']);
+        RuleModel::insert(['ptype' => 'g', 'v0'  => 'alice', 'v1' => 'data2_admin']);
+        // $seeder = \Config\Database::seeder();
+        // $seeder->call(CITestSeeder::class);
     }
 
     protected function getEnforcer()
@@ -66,6 +73,7 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     public function testAddPolicy()
     {
+        $this->initDb();
         $this->assertFalse(Services::enforcer()->enforce('eve', 'data3', 'read'));
         Services::enforcer()->addPermissionForUser('eve', 'data3', 'read');
         $this->assertTrue(Services::enforcer()->enforce('eve', 'data3', 'read'));
@@ -87,6 +95,7 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     public function testSavePolicy()
     {
+        $this->initDb();
         $this->assertFalse(Services::enforcer()->enforce('alice', 'data4', 'read'));
 
         $model = Services::enforcer()->getModel();
