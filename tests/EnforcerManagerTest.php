@@ -40,6 +40,11 @@ class EnforcerManagerTest extends CIUnitTestCase
         return Services::enforcer(null, false);
     }
 
+    protected function clearPolicy()
+    {
+        Services::enforcer(null, true)->getModel()->clearPolicy();
+    }
+
     protected function createApplication()
     {
         $app = parent::createApplication();
@@ -131,8 +136,8 @@ class EnforcerManagerTest extends CIUnitTestCase
     public function testRemoveFilteredPolicy()
     {
         $e = $this->getEnforcer();
-        $model = $e->getModel();
-        $model->clearPolicy();
+        // $model = $e->getModel();
+        // $model->clearPolicy();
         $this->assertTrue($e->enforce('alice', 'data1', 'read'));
         $e->removeFilteredPolicy(1, 'data1');
         $this->assertFalse($e->enforce('alice', 'data1', 'read'));
@@ -150,6 +155,7 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     public function testRemovePolicies()
     {
+        $this->clearPolicy();
         $e = $this->getEnforcer();
         //Services::enforcer()->clearPolicy();
         $this->assertEquals([
