@@ -80,52 +80,53 @@ class EnforcerManagerTest extends CIUnitTestCase
         $this->assertTrue($e->enforce('alice', 'data2', 'write'));
     }
 
-    // public function testAddPolicy()
-    // {
-    //     $this->initDb();
-    //     $this->assertFalse(Services::enforcer()->enforce('eve', 'data3', 'read'));
-    //     Services::enforcer()->addPermissionForUser('eve', 'data3', 'read');
-    //     $this->assertTrue(Services::enforcer()->enforce('eve', 'data3', 'read'));
-    // }
+    public function testAddPolicy()
+    {
+        $e = $this->getEnforcer();
+        $this->assertFalse($e->enforce('eve', 'data3', 'read'));
+        $e->addPermissionForUser('eve', 'data3', 'read');
+        $this->assertTrue($e->enforce('eve', 'data3', 'read'));
+    }
 
-    // public function testAddPolicies()
-    // {
-    //     $policies = [
-    //         ['u1', 'd1', 'read'],
-    //         ['u2', 'd2', 'read'],
-    //         ['u3', 'd3', 'read'],
-    //     ];
-    //     $this->initDb();
-    //     Services::enforcer()->clearPolicy();
-    //     $this->assertEquals([], Services::enforcer()->getPolicy());
-    //     Services::enforcer()->addPolicies($policies);
-    //     $this->assertEquals($policies, Services::enforcer()->getPolicy());
-    // }
+    public function testAddPolicies()
+    {
+        $policies = [
+            ['u1', 'd1', 'read'],
+            ['u2', 'd2', 'read'],
+            ['u3', 'd3', 'read'],
+        ];
+        $e = $this->getEnforcer();
+        $e->clearPolicy();
+        $this->assertEquals([], $e->getPolicy());
+        $e->addPolicies($policies);
+        $this->assertEquals($policies, $e->getPolicy());
+    }
 
-    // public function testSavePolicy()
-    // {
-    //     $this->initDb();
-    //     $this->assertFalse(Services::enforcer()->enforce('alice', 'data4', 'read'));
+    public function testSavePolicy()
+    {
+        $e = $this->getEnforcer();
+        $this->assertFalse($e->enforce('alice', 'data4', 'read'));
 
-    //     $model = Services::enforcer()->getModel();
-    //     $model->clearPolicy();
-    //     $model->addPolicy('p', 'p', ['alice', 'data4', 'read']);
+        $model = $e->getModel();
+        $model->clearPolicy();
+        $model->addPolicy('p', 'p', ['alice', 'data4', 'read']);
 
-    //     $adapter = Services::enforcer()->getAdapter();
-    //     $adapter->savePolicy($model);
-    //     $this->assertTrue(Services::enforcer()->enforce('alice', 'data4', 'read'));
-    // }
+        $adapter = $e->getAdapter();
+        $adapter->savePolicy($model);
+        $this->assertTrue($e->enforce('alice', 'data4', 'read'));
+    }
 
-    // public function testRemovePolicy()
-    // {
-    //     $this->assertFalse(Services::enforcer()->enforce('alice', 'data5', 'read'));
+    public function testRemovePolicy()
+    {
+        $e = $this->getEnforcer();
+        $this->assertFalse($e->enforce('alice', 'data5', 'read'));
 
-    //     Services::enforcer()->addPermissionForUser('alice', 'data5', 'read');
-    //     $this->assertTrue(Services::enforcer()->enforce('alice', 'data5', 'read'));
+        $e->addPermissionForUser('alice', 'data5', 'read');
+        $this->assertTrue($e->enforce('alice', 'data5', 'read'));
 
-    //     Services::enforcer()->deletePermissionForUser('alice', 'data5', 'read');
-    //     $this->assertFalse(Services::enforcer()->enforce('alice', 'data5', 'read'));
-    // }
+        $e->deletePermissionForUser('alice', 'data5', 'read');
+        $this->assertFalse($e->enforce('alice', 'data5', 'read'));
+    }
 
     public function testRemoveFilteredPolicy()
     {
