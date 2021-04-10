@@ -159,6 +159,7 @@ class EnforcerManagerTest extends CIUnitTestCase
         //$this->clearPolicy();
         Services::enforcer(null, false)->clearPolicy();
         $e = $this->getEnforcer();
+        $e = Services::enforcer(null, true);
         $this->assertEquals([], $e->getPolicy());
         $this->assertEquals([
             ['alice', 'data1', 'read'],
