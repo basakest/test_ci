@@ -68,17 +68,17 @@ class EnforcerManagerTest extends CIUnitTestCase
      */
     protected $namespace = 'Casbin\CodeIgniter';
 
-    // public function testEnforce()
-    // {
-    //     $this->initDb();
-    //     $this->assertTrue(Services::enforcer()->enforce('alice', 'data1', 'read'));
+    public function testEnforce()
+    {
+        $e = $this->getEnforcer();
+        $this->assertTrue($e->enforce('alice', 'data1', 'read'));
 
-    //     $this->assertFalse(Services::enforcer()->enforce('bob', 'data1', 'read'));
-    //     $this->assertTrue(Services::enforcer()->enforce('bob', 'data2', 'write'));
+        $this->assertFalse($e->enforce('bob', 'data1', 'read'));
+        $this->assertTrue($e->enforce('bob', 'data2', 'write'));
 
-    //     $this->assertTrue(Services::enforcer()->enforce('alice', 'data2', 'read'));
-    //     $this->assertTrue(Services::enforcer()->enforce('alice', 'data2', 'write'));
-    // }
+        $this->assertTrue($e->enforce('alice', 'data2', 'read'));
+        $this->assertTrue($e->enforce('alice', 'data2', 'write'));
+    }
 
     // public function testAddPolicy()
     // {
@@ -147,16 +147,16 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     public function testRemovePolicies()
     {
+        $e = $this->getEnforcer();
         //Services::enforcer()->clearPolicy();
-        $this->initDb();
         $this->assertEquals([
             ['alice', 'data1', 'read'],
             ['bob', 'data2', 'write'],
             ['data2_admin', 'data2', 'read'],
             ['data2_admin', 'data2', 'write'],
-        ], Services::enforcer()->getPolicy());
+        ], $e->getPolicy());
 
-        Services::enforcer()->removePolicies([
+        $e->removePolicies([
             ['data2_admin', 'data2', 'read'],
             ['data2_admin', 'data2', 'write'],
         ]);
@@ -164,6 +164,6 @@ class EnforcerManagerTest extends CIUnitTestCase
         $this->assertEquals([
             ['alice', 'data1', 'read'],
             ['bob', 'data2', 'write']
-        ], Services::enforcer()->getPolicy());
+        ], $e->getPolicy());
     }
 }
