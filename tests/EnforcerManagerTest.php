@@ -36,8 +36,8 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     protected function getEnforcer()
     {
-        //$this->initDb();
-        return Services::enforcer();
+        $this->initDb();
+        return Services::enforcer(null, false);
     }
 
     protected function createApplication()
@@ -129,20 +129,20 @@ class EnforcerManagerTest extends CIUnitTestCase
 
     public function testRemoveFilteredPolicy()
     {
-        $this->initDb();
-        $this->assertTrue(Services::enforcer()->enforce('alice', 'data1', 'read'));
-        Services::enforcer()->removeFilteredPolicy(1, 'data1');
-        $this->assertFalse(Services::enforcer()->enforce('alice', 'data1', 'read'));
-        $this->assertTrue(Services::enforcer()->enforce('bob', 'data2', 'write'));
-        $this->assertTrue(Services::enforcer()->enforce('alice', 'data2', 'read'));
-        $this->assertTrue(Services::enforcer()->enforce('alice', 'data2', 'write'));
-        Services::enforcer()->removeFilteredPolicy(1, 'data2', 'read');
-        $this->assertTrue(Services::enforcer()->enforce('bob', 'data2', 'write'));
-        $this->assertFalse(Services::enforcer()->enforce('alice', 'data2', 'read'));
-        $this->assertTrue(Services::enforcer()->enforce('alice', 'data2', 'write'));
-        Services::enforcer()->removeFilteredPolicy(2, 'write');
-        $this->assertFalse(Services::enforcer()->enforce('bob', 'data2', 'write'));
-        $this->assertFalse(Services::enforcer()->enforce('alice', 'data2', 'write'));
+        $e = $this->getEnforcer();
+        $this->assertTrue($e->enforce('alice', 'data1', 'read'));
+        $e->removeFilteredPolicy(1, 'data1');
+        $this->assertFalse($e->enforce('alice', 'data1', 'read'));
+        $this->assertTrue($e->enforce('bob', 'data2', 'write'));
+        $this->assertTrue($e->enforce('alice', 'data2', 'read'));
+        $this->assertTrue($e->enforce('alice', 'data2', 'write'));
+        $e->removeFilteredPolicy(1, 'data2', 'read');
+        $this->assertTrue($e->enforce('bob', 'data2', 'write'));
+        $this->assertFalse($e->enforce('alice', 'data2', 'read'));
+        $this->assertTrue($e->enforce('alice', 'data2', 'write'));
+        $e->removeFilteredPolicy(2, 'write');
+        $this->assertFalse($e->enforce('bob', 'data2', 'write'));
+        $this->assertFalse($e->enforce('alice', 'data2', 'write'));
     }
 
     public function testRemovePolicies()
