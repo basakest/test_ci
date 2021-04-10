@@ -8,11 +8,10 @@ use Casbin\CodeIgniter\Config\Services;
 use Casbin\CodeIgniter\Models\RuleModel;
 use Config\Autoload;
 use Config\Modules;
-// use Casbin\CodeIgniter\Tests\Database\Seeds\CITestSeeder;
 use Casbin\CodeIgniter\Tests\Database\Seeds\CITestSeeder;
 
 class EnforcerManagerTest extends CIUnitTestCase
-{    
+{
     protected function initDb()
     {
         // $db = null;
@@ -22,16 +21,16 @@ class EnforcerManagerTest extends CIUnitTestCase
 
         // $this->model = new RuleModel($db);
         $this->model = new RuleModel();
+        $config = Services::enforcer()->getDefaultConfig();
+        $table = $config['database']['rules_table'];
         //$this->model->setTable($config['database']['rules_table']);
-        $this->model->setTable('db_rules');
+        $this->model->setTable($table);
         $this->model->emptyTable();
         $this->model->insert(['ptype' => 'p', 'v0'  => 'alice', 'v1' => 'data1', 'v2' => 'read']);
         $this->model->insert(['ptype' => 'p', 'v0'  => 'bob', 'v1' => 'data2', 'v2' => 'write']);
         $this->model->insert(['ptype' => 'p', 'v0'  => 'data2_admin', 'v1' => 'data2', 'v2' => 'read']);
         $this->model->insert(['ptype' => 'p', 'v0'  => 'data2_admin', 'v1' => 'data2', 'v2' => 'write']);
         $this->model->insert(['ptype' => 'g', 'v0'  => 'alice', 'v1' => 'data2_admin']);
-        // $seeder = \Config\Database::seeder();
-        // $seeder->call(CITestSeeder::class);
     }
 
     protected function getEnforcer()

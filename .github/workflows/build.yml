@@ -12,10 +12,16 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [ 7.2, 7.3 ]
-        stability: [ prefer-lowest, prefer-stable ]
-
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
+        include:
+          # codeigniter4/framework ^4
+          - php: 7.2
+            codeigniter4/framework: ^4
+          - php: 7.3
+            codeigniter4/framework: ^4
+          - php: 7.4
+            codeigniter4/framework: ^4
+          
+    name: codeigniter4/framework${{ matrix.codeigniter4/framework }}-PHP${{ matrix.php }}
 
     services:
       mysql:
