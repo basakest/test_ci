@@ -93,20 +93,6 @@ class EnforcerManagerTest extends CIUnitTestCase
         $this->assertTrue($e->enforce('eve', 'data3', 'read'));
     }
 
-    public function testAddPolicies()
-    {
-        $policies = [
-            ['u1', 'd1', 'read'],
-            ['u2', 'd2', 'read'],
-            ['u3', 'd3', 'read'],
-        ];
-        $e = $this->getEnforcer();
-        $e->clearPolicy();
-        $this->assertEquals([], $e->getPolicy());
-        $e->addPolicies($policies);
-        $this->assertEquals($policies, $e->getPolicy());
-    }
-
     public function testSavePolicy()
     {
         $e = $this->getEnforcer();
@@ -153,9 +139,23 @@ class EnforcerManagerTest extends CIUnitTestCase
         $this->assertFalse($e->enforce('alice', 'data2', 'write'));
     }
 
+    public function testAddPolicies()
+    {
+        $policies = [
+            ['u1', 'd1', 'read'],
+            ['u2', 'd2', 'read'],
+            ['u3', 'd3', 'read'],
+        ];
+        $e = $this->getEnforcer();
+        $e->clearPolicy();
+        $this->assertEquals([], $e->getPolicy());
+        $e->addPolicies($policies);
+        $this->assertEquals($policies, $e->getPolicy());
+    }
+
     public function testRemovePolicies()
     {
-        $this->clearPolicy();
+        //$this->clearPolicy();
         $e = $this->getEnforcer();
         //Services::enforcer()->clearPolicy();
         $this->assertEquals([
