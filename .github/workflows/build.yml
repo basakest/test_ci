@@ -9,20 +9,20 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     strategy:
       fail-fast: true
       matrix:
         include:
-          # codeigniter4/framework ^4
+          # codeigniter4 ^4
           - php: 7.2
-            codeigniter4/framework: ^4
+            codeigniter4: ^4
           - php: 7.3
-            codeigniter4/framework: ^4
+            codeigniter4: ^4
           - php: 7.4
-            codeigniter4/framework: ^4
+            codeigniter4: ^4
           
-    name: codeigniter4/framework${{ matrix.codeigniter4/framework }}-PHP${{ matrix.php }}
+    name: codeigniter4${{ matrix.codeigniter4 }}-PHP${{ matrix.php }}
 
     services:
       mysql:
