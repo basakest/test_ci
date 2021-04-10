@@ -183,7 +183,8 @@ class DatabaseAdapter implements Adapter, BatchAdapter
             }
             $cols[] = $temp;
         }
-        $this->model->insert($cols[0]);
+        //$this->model->builder();
+        $this->model->insertBatch($cols);
     }
 
     /**
